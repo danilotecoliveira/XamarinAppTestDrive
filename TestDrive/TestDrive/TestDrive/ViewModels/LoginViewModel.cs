@@ -30,9 +30,10 @@ namespace TestDrive.ViewModels
 
         public LoginViewModel()
         {
-            EntrarCommand = new Command(() =>
+            EntrarCommand = new Command( async () =>
             {
-                MessagingCenter.Send(new Usuario(), "SucessoLogin");
+                var loginService = new LoginService();
+                await loginService.FazerLogin(new Login(usuario, senha));
             },
                 () => 
                 {
