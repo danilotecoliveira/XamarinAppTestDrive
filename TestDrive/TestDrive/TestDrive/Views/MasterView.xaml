@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TestDrive.Views.MasterView"
+             Title="Perfil">
+    <Frame OutlineColor="Silver" Margin="15" VerticalOptions="CenterAndExpand">
+        <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+            <Label Text="{Binding Nome}"></Label>
+            <BoxView Color="Gray" HeightRequest="1" HorizontalOptions="Fill"></BoxView>
+            
+            <Label Text="{Binding Email}"></Label>
+            <BoxView Color="Gray" HeightRequest="1" HorizontalOptions="Fill"></BoxView>
+            
+            <Button Text="Perfil"></Button>
+        </StackLayout>
+    </Frame>
+</ContentPage>

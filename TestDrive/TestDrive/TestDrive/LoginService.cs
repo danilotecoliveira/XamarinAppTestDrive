@@ -11,28 +11,31 @@ namespace TestDrive
     {
         public async Task FazerLogin(Login login)
         {
-            try
+
+            using (HttpClient client = new HttpClient())
             {
-                using (HttpClient client = new HttpClient())
+                var content = new FormUrlEncodedContent(new[]
                 {
-                    var content = new FormUrlEncodedContent(new[]
-                    {
-                        new KeyValuePair<string, string>("email", login.Email),
-                        new KeyValuePair<string, string>("senha", login.Senha)
-                    });
+                    new KeyValuePair<string, string>("email", login.Email),
+                    new KeyValuePair<string, string>("senha", login.Senha)
+                });
 
-                    client.BaseAddress = new Uri("https://aluracar.herokuapp.com.br/login");
-                    var resultado = await client.PostAsync("/login", content);
+                client.BaseAddress = new Uri("https://aluracar.herokuapp.com");
 
-                    if (resultado.IsSuccessStatusCode)
-                        MessagingCenter.Send(new Usuario(), "LoginSucesso");
-                    else
-                        MessagingCenter.Send(new LoginException("Credencial incorreta"), "FalhaLogin");
+                HttpResponseMessage resultado = new HttpResponseMessage();
+                try
+                {
+                    resultado = await client.PostAsync("/login", content);
                 }
-            }
-            catch
-            {
-                MessagingCenter.Send(new LoginException("Sem conexão"), "FalhaLogin");
+                catch (Exception ex)
+                {
+                    MessagingCenter.Send(new LoginException("Sem conexão"), "FalhaLogin");
+                }
+
+                if (resultado.IsSuccessStatusCode)
+                    MessagingCenter.Send(new Usuario(), "SucessoLogin");
+                else
+                    MessagingCenter.Send(new LoginException("Credencial incorreta"), "FalhaLogin");
             }
         }
     }
