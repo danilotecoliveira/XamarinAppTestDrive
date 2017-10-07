@@ -6,7 +6,7 @@ namespace TestDrive.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-        private string usuario;
+        private string usuario = "joao@alura.com.br";
         public string Usuario
         {
             get { return usuario; }
@@ -16,7 +16,7 @@ namespace TestDrive.ViewModels
             }
         }
 
-        private string senha;
+        private string senha = "alura123";
         public string Senha
         {
             get { return senha; }

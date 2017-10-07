@@ -28,7 +28,7 @@ namespace TestDrive
                 {
                     resultado = await client.PostAsync("/login", content);
                 }
-                catch (Exception ex)
+                catch
                 {
                     MessagingCenter.Send(new LoginException("Sem conexão"), "FalhaLogin");
                 }

@@ -1,6 +1,8 @@
-﻿using System.Windows.Input;
+﻿using Xamarin.Forms;
+using TestDrive.Media;
 using TestDrive.Models;
-using Xamarin.Forms;
+using System.Windows.Input;
+using System.IO;
 
 namespace TestDrive.ViewModels
 {
@@ -41,10 +43,23 @@ namespace TestDrive.ViewModels
             }
         }
 
+        private ImageSource fotoPerfil = "perfil.png";
+        public ImageSource FotoPerfil
+        {
+            get { return fotoPerfil; }
+            private set
+            {
+                fotoPerfil = value;
+                OnPropertyChanged();
+            }
+        }
+
+
 
         public ICommand EditarPerfilCommand { get; private set; }
         public ICommand SalvarCommand { get; private set; }
         public ICommand EditarCommand { get; private set; }
+        public ICommand TirarFotoCommand { get; private set; }
 
         private readonly Usuario _usuario;
 
@@ -66,6 +81,16 @@ namespace TestDrive.ViewModels
             EditarCommand = new Command(() =>
             {
                 Editando = true;
+            });
+
+            TirarFotoCommand = new Command(() =>
+            {
+                DependencyService.Get<ICamera>().TirarFoto();
+            });
+
+            MessagingCenter.Subscribe<byte[]>(this, "FotoTirada", (bytes) =>
+            {
+                FotoPerfil = ImageSource.FromStream(() => new MemoryStream(bytes));
             });
         }
     }

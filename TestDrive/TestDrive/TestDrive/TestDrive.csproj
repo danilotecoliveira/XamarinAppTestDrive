@@ -40,6 +40,7 @@
     </Compile>
     <Compile Include="Converters\NegativoConverter.cs" />
     <Compile Include="LoginService.cs" />
+    <Compile Include="Media\ICamera.cs" />
     <Compile Include="Models\Agendamento.cs" />
     <Compile Include="Models\ListagemVeiculos.cs" />
     <Compile Include="Models\Login.cs" />

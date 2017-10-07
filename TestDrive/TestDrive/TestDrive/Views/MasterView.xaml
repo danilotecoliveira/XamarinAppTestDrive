@@ -15,6 +15,9 @@
         <ContentPage Title="Usuário">
             <Frame OutlineColor="Silver" Margin="15" VerticalOptions="CenterAndExpand">
                 <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                    <Image Source="{Binding FotoPerfil}"></Image>
+                    <Button Text="Tirar Foto" Command="{Binding TirarFotoCommand}"></Button>
+                    
                     <Label Text="{Binding Nome}"></Label>
                     <BoxView Color="Gray" HeightRequest="1" HorizontalOptions="Fill"></BoxView>
 
@@ -29,6 +32,7 @@
         <ContentPage Title="Editar">
             <Frame OutlineColor="Silver" Margin="15" VerticalOptions="CenterAndExpand">
                 <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                    <Image Source="{Binding FotoPerfil}"></Image>
                     <TableView>
                         <TableRoot>
                             <TableSection Title="Dados Pessoais">
