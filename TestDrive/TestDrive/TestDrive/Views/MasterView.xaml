@@ -1,17 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TestDrive.Views.MasterView"
-             Title="Perfil">
-    <Frame OutlineColor="Silver" Margin="15" VerticalOptions="CenterAndExpand">
-        <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
-            <Label Text="{Binding Nome}"></Label>
-            <BoxView Color="Gray" HeightRequest="1" HorizontalOptions="Fill"></BoxView>
-            
-            <Label Text="{Binding Email}"></Label>
-            <BoxView Color="Gray" HeightRequest="1" HorizontalOptions="Fill"></BoxView>
-            
-            <Button Text="Perfil"></Button>
-        </StackLayout>
-    </Frame>
-</ContentPage>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="TestDrive.Views.MasterView"
+            xmlns:converters="clr-namespace:TestDrive.Converters"
+            Title="Perfil">
+
+    <TabbedPage.Resources>
+        <ResourceDictionary>
+            <converters:NegativoConverter x:Key="Negativo" />
+        </ResourceDictionary>
+    </TabbedPage.Resources>
+    
+    <TabbedPage.Children>
+        <ContentPage Title="Usuário">
+            <Frame OutlineColor="Silver" Margin="15" VerticalOptions="CenterAndExpand">
+                <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                    <Label Text="{Binding Nome}"></Label>
+                    <BoxView Color="Gray" HeightRequest="1" HorizontalOptions="Fill"></BoxView>
+
+                    <Label Text="{Binding Email}"></Label>
+                    <BoxView Color="Gray" HeightRequest="1" HorizontalOptions="Fill"></BoxView>
+
+                    <Button Text="Perfil" Command="{Binding EditarPerfilCommand}"></Button>
+                </StackLayout>
+            </Frame>
+        </ContentPage>
+
+        <ContentPage Title="Editar">
+            <Frame OutlineColor="Silver" Margin="15" VerticalOptions="CenterAndExpand">
+                <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                    <TableView>
+                        <TableRoot>
+                            <TableSection Title="Dados Pessoais">
+                                <EntryCell Placeholder="Nome" Text="{Binding Nome}" IsEnabled="{Binding Editando}" />
+                                <EntryCell Placeholder="Email" Text="{Binding Email}" Keyboard="Email" IsEnabled="{Binding Editando}" />
+                                <EntryCell Placeholder="Data de nascimento" Text="{Binding DataNascimento}" IsEnabled="{Binding Editando}" />
+                                <EntryCell Placeholder="Telefone" Text="{Binding Telefone}" IsEnabled="{Binding Editando}" />
+                            </TableSection>
+                        </TableRoot>
+                    </TableView>
+                    <Button Text="Salvar" Command="{Binding SalvarCommand}" IsVisible="{Binding Editando}"></Button>
+                    <Button Text="Editar" Command="{Binding EditarCommand}" IsVisible="{Binding Editando, Converter={StaticResource Key=Negativo}"></Button>
+                </StackLayout>
+            </Frame>
+        </ContentPage>
+    </TabbedPage.Children>
+
+</TabbedPage>

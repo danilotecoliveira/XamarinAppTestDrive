@@ -4,6 +4,7 @@ using System.Net.Http;
 using TestDrive.Models;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace TestDrive
 {
@@ -33,7 +34,11 @@ namespace TestDrive
                 }
 
                 if (resultado.IsSuccessStatusCode)
-                    MessagingCenter.Send(new Usuario(), "SucessoLogin");
+                {
+                    var conteudo = await resultado.Content.ReadAsStringAsync();
+                    var resultadoLogin = JsonConvert.DeserializeObject<ResultadoLogin>(conteudo);
+                    MessagingCenter.Send(resultadoLogin.Usuario, "SucessoLogin");
+                }
                 else
                     MessagingCenter.Send(new LoginException("Credencial incorreta"), "FalhaLogin");
             }

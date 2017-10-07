@@ -3,11 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TestDrive.Views.MasterDetailView"
              xmlns:pages="clr-namespace:TestDrive.Views">
-    
-    <MasterDetailPage.Master>
-        <pages:MasterView></pages:MasterView>
-    </MasterDetailPage.Master>
-    
+
     <MasterDetailPage.Detail>
         <NavigationPage>
             <x:Arguments>
