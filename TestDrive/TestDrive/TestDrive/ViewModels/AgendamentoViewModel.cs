@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
+using TestDrive.Data;
 
 namespace TestDrive.ViewModels
 {
@@ -14,10 +15,9 @@ namespace TestDrive.ViewModels
         public Agendamento Agendamento { get; set; }
         public ICommand ComandoAgendar { get; set; }
 
-        public AgendamentoViewModel(Veiculo veiculo)
+        public AgendamentoViewModel(Veiculo veiculo, Usuario usuario)
         {
-            Agendamento = new Agendamento();
-            Veiculo = veiculo;
+            Agendamento = new Agendamento(usuario.Nome, usuario.Telefone, usuario.Email, veiculo.Nome, veiculo.Preco);
             ComandoAgendar = new Command(() =>
             {
                 MessagingCenter.Send(Agendamento, "Agendamento");
@@ -31,17 +31,22 @@ namespace TestDrive.ViewModels
         }
 
 
-        public Veiculo Veiculo
+        private string Modelo;
+        public string modelo
         {
-            get
-            {
-                return Agendamento.Veiculo;
-            }
-            set
-            {
-                Agendamento.Veiculo = value;
-            }
+            get { return Agendamento.Nome; }
+            set { Agendamento.Nome = value; }
         }
+
+        private decimal Preco;
+
+        public decimal MyProperty
+        {
+            get { return Agendamento.Preco; }
+            set { Agendamento.Preco = value; }
+        }
+
+
 
         public string Nome
         {
@@ -118,12 +123,12 @@ namespace TestDrive.ViewModels
                 nome = Nome,
                 fone = Fone,
                 email = Email,
-                carro = Veiculo.Nome,
-                preco = Veiculo.Preco,
-                dataAgendamento = 
+                carro = Modelo,
+                preco = Preco,
+                dataAgendamento =
                 new DateTime(
-                    DataAgendamento.Year, 
-                    DataAgendamento.Month, 
+                    DataAgendamento.Year,
+                    DataAgendamento.Month,
                     DataAgendamento.Day,
                     HoraAgendamento.Hours,
                     HoraAgendamento.Minutes,
@@ -131,15 +136,24 @@ namespace TestDrive.ViewModels
                 )
             });
 
-
-
             var conteudo = new StringContent(json, Encoding.UTF8, "application/json");
             var resposta = await client.PostAsync(URL_POST_AGENDAMENTO, conteudo);
+
+            SalvarAgendamentoDB();
 
             if (resposta.IsSuccessStatusCode)
                 MessagingCenter.Send(Agendamento, "SucessoAgendamento");
             else
                 MessagingCenter.Send(new ArgumentException(), "FalhaAgendamento");
+        }
+
+        private void SalvarAgendamentoDB()
+        {
+            using (var conexao = DependencyService.Get<ISQLite>().PegarConexao())
+            {
+                var dao = new AgendamentoDAO(conexao);
+                dao.Salvar(new Agendamento(Nome, Fone, Email, Modelo, Preco));
+            }
         }
     }
 }

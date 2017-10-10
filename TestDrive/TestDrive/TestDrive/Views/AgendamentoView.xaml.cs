@@ -10,10 +10,10 @@ namespace TestDrive.Views
     {
         public AgendamentoViewModel ViewModel { get; set; }
 
-        public AgendamentoView(Veiculo veiculo)
+        public AgendamentoView(Veiculo veiculo, Usuario usuario)
         {
             InitializeComponent();
-            ViewModel = new AgendamentoViewModel(veiculo);
+            ViewModel = new AgendamentoViewModel(veiculo, usuario);
             BindingContext = ViewModel;
         }
 
@@ -34,14 +34,16 @@ namespace TestDrive.Views
                     }
                 });
 
-            MessagingCenter.Subscribe<Agendamento>(this, "SucessoAgendamento", (msg) =>
+            MessagingCenter.Subscribe<Agendamento>(this, "SucessoAgendamento", async (msg) =>
             {
-                DisplayAlert("Agendamento", "Agendamento salvo com sucesso!", "Ok");
+                await DisplayAlert("Agendamento", "Agendamento salvo com sucesso!", "Ok");
+                await Navigation.PopToRootAsync();
             });
 
-            MessagingCenter.Subscribe<ArgumentException>(this, "FalhaAgendamento", (msg) =>
+            MessagingCenter.Subscribe<ArgumentException>(this, "FalhaAgendamento", async (msg) =>
             {
-                DisplayAlert("Agendamento", "Erro ao fazer o agendamento!", "Ok");
+                await DisplayAlert("Agendamento", "Erro ao fazer o agendamento!", "Ok");
+                await Navigation.PopToRootAsync();
             });
         }
 

@@ -1,10 +1,8 @@
 ﻿using TestDrive.Models;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace TestDrive.Views
 {
-    //[XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MasterDetailView : MasterDetailPage
     {
         private readonly Usuario _usuario;
@@ -14,6 +12,7 @@ namespace TestDrive.Views
             InitializeComponent();
             _usuario = usuario;
             Master = new MasterView(usuario);
+            Detail = new NavigationPage(new ListagemView(usuario));
         }
     }
 }
