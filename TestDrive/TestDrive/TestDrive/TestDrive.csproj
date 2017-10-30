@@ -38,6 +38,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\AgendamentoConfirmadoConverter.cs" />
     <Compile Include="Converters\NegativoConverter.cs" />
     <Compile Include="Data\AgendamentoDAO.cs" />
     <Compile Include="Data\ISQLite.cs" />
@@ -48,12 +49,16 @@
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Models\Veiculo.cs" />
+    <Compile Include="ViewModels\AgendamentosUsuarioViewModel.cs" />
     <Compile Include="ViewModels\AgendamentoViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\DetalheViewModel.cs" />
     <Compile Include="ViewModels\ListagemViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MasterViewModel.cs" />
+    <Compile Include="Views\AgendamentosUsuarioView.xaml.cs">
+      <DependentUpon>AgendamentosUsuarioView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AgendamentoView.xaml.cs">
       <DependentUpon>AgendamentoView.xaml</DependentUpon>
     </Compile>
@@ -148,6 +153,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\MasterView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\AgendamentosUsuarioView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

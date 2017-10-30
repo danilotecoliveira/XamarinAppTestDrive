@@ -8,6 +8,13 @@ namespace TestDrive.ViewModels
 {
     public class MasterViewModel : BaseViewModel
     {
+        public ICommand EditarPerfilCommand { get; private set; }
+        public ICommand SalvarCommand { get; private set; }
+        public ICommand EditarCommand { get; private set; }
+        public ICommand TirarFotoCommand { get; private set; }
+        public ICommand MeusAgendamentosCommand { get; private set; }
+        public ICommand NovoAgendamentosCommand { get; private set; }
+
         public string Nome
         {
             get { return _usuario.Nome; }
@@ -54,13 +61,6 @@ namespace TestDrive.ViewModels
             }
         }
 
-
-
-        public ICommand EditarPerfilCommand { get; private set; }
-        public ICommand SalvarCommand { get; private set; }
-        public ICommand EditarCommand { get; private set; }
-        public ICommand TirarFotoCommand { get; private set; }
-
         private readonly Usuario _usuario;
 
         public MasterViewModel(Usuario usuario)
@@ -91,6 +91,16 @@ namespace TestDrive.ViewModels
             MessagingCenter.Subscribe<byte[]>(this, "FotoTirada", (bytes) =>
             {
                 FotoPerfil = ImageSource.FromStream(() => new MemoryStream(bytes));
+            });
+
+            MeusAgendamentosCommand = new Command(() => 
+            {
+                MessagingCenter.Send(usuario, "MeusAgendamentos");
+            });
+
+            NovoAgendamentosCommand = new Command(() =>
+            {
+                MessagingCenter.Send(usuario, "NovoAgendamentos");
             });
         }
     }
